@@ -12,11 +12,13 @@ logging.basicConfig(level=logging.INFO)
 
 def main():
     companyInformation = []
-    initialLink = r'https://www.environmental-expert.com/waste-recycling/plastics-recycling/companies/location-africa'
+    # initialLink = r'https://www.environmental-expert.com/waste-recycling/plastics-recycling/companies/location-africa'
     # initialLink = r'https://www.environmental-expert.com/waste-recycling/plastics-recycling/companies/location-uganda'
+    initialLink = r'https://www.environmental-expert.com/companies/location-africa'
     pageGenerator = PageIterator(initialLink).main()
+    pageNumber = 1
     for pageLink in pageGenerator:
-        logger.info('Navigated to new page')
+        logger.info(f'Navigated to page {pageNumber}')
         # print(pageLink)
         mainPage = HtmlRetriever(pageLink).main()
         linkGenerator = CompanyIterator(mainPage).main()
@@ -26,6 +28,7 @@ def main():
             companyContent = HtmlRetriever(link).main()
             returnDict = CompanyParser(companyContent).main()
             companyInformation.append(returnDict)
+        pageNumber += 1
     
     logger.info(f'Number of companies retrieved: {len(companyInformation)}')
     fileName = 'companies.json'
