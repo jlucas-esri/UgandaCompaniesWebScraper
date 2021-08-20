@@ -26,7 +26,7 @@ def main():
             logger.info(f'Navigated to new link: "{link}"')
             # print(link) 
             companyContent = HtmlRetriever(link).main()
-            returnDict = CompanyParser(companyContent).main()
+            returnDict = CompanyParser(companyContent, link).main()
             companyInformation.append(returnDict)
         pageNumber += 1
     

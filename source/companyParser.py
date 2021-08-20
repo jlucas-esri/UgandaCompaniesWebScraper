@@ -1,10 +1,13 @@
 from bs4 import BeautifulSoup
 import pprint
+import re
 
 class CompanyParser:
 
-    def __init__(self, htmlText):
+    def __init__(self, htmlText, link):
         self.htmlText = htmlText
+        self.link = link
+        self.id = re.split(r'\-', self.link)[-1]
         self.soup = BeautifulSoup(self.htmlText, features="html.parser")
 
     def _returnSafeAddressVal(self, tag, itemprop, default=''):
@@ -88,6 +91,8 @@ class CompanyParser:
         # print(correspondingLabelsWithValues)
         # print(details)
         returnDict = {
+            'link': self.link,
+            'id': self.id,
             'name': companyName,
             'description': description,
             'address': addressText,
